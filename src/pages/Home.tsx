@@ -14,6 +14,9 @@ export default function Home() {
 
   // สร้าง function สำหรับดึงข้อมูล products จาก API
   useEffect(() => {
+    
+    document.title = 'Home - E-commerce'
+
     const fetchProducts = async () => {
       try {
         const response = await productAPI.getAll()
