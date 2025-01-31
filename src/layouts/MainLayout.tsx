@@ -1,12 +1,14 @@
 import Navbar from '@/components/front/Navbar'
 import Footer from '@/components/front/Footer'
-import { ReactNode } from 'react'
+import { Outlet } from 'react-router'
 
-export default function MainLayout({ children }: { children: ReactNode }) {
+export default function MainLayout() {
   return (
     <>
         <Navbar />
-        <div>{ children }</div>
+        <div>
+          <Outlet />
+        </div>
         <Footer />
     </>
   )

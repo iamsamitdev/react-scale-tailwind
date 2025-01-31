@@ -1,5 +1,3 @@
-import MainLayout from '@/layouts/MainLayout'
-
 const product = {
   name: 'Basic Tee 6-Pack',
   price: '$192',
@@ -55,55 +53,53 @@ const product = {
 
 export default function ProductDetail() {
   return (
-    <MainLayout>
-      <div className="bg-white">
-        <div className="pt-6 ">
-          <div className="mx-auto mt-6 max-w-2xl sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-2 lg:gap-x-8 lg:px-8">
-            
-            <img
-              alt={product.images[0].alt}
-              src={product.images[0].src}
-              className="size-full rounded-lg object-cover lg:block"
-            />
+    <div className="bg-white">
+      <div className="pt-6 ">
+        <div className="mx-auto mt-6 max-w-2xl sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-2 lg:gap-x-8 lg:px-8">
+          
+          <img
+            alt={product.images[0].alt}
+            src={product.images[0].src}
+            className="size-full rounded-lg object-cover lg:block"
+          />
 
+          <div>
             <div>
-              <div>
-                <h1 className='text-3xl font-bold mb-4'>Basic Tee 6-Pack</h1>
-                <p className='text-2xl font-medium text-gray-900 mb-4'>{product.price}</p>
-                <div className="space-y-6">
-                  <p className="text-base text-gray-900">{product.description}</p>
-                </div>
+              <h1 className='text-3xl font-bold mb-4'>Basic Tee 6-Pack</h1>
+              <p className='text-2xl font-medium text-gray-900 mb-4'>{product.price}</p>
+              <div className="space-y-6">
+                <p className="text-base text-gray-900">{product.description}</p>
               </div>
-              <div className="mt-10">
-                <h3 className="text-sm font-medium text-gray-900">Highlights</h3>
-
-                <div className="mt-4">
-                  <ul role="list" className="list-disc space-y-2 pl-4 text-sm">
-                    {product.highlights.map((highlight) => (
-                      <li key={highlight} className="text-gray-400">
-                        <span className="text-gray-600">{highlight}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
-              <div className="mt-10">
-                <h2 className="text-sm font-medium text-gray-900">Details</h2>
-
-                <div className="mt-4 space-y-6">
-                  <p className="text-sm text-gray-600">{product.details}</p>
-                </div>
-              </div>
-              <button
-                  type="submit"
-                  className="mt-10 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:outline-hidden"
-                >
-                  Add to bag
-              </button>
             </div>
+            <div className="mt-10">
+              <h3 className="text-sm font-medium text-gray-900">Highlights</h3>
+
+              <div className="mt-4">
+                <ul role="list" className="list-disc space-y-2 pl-4 text-sm">
+                  {product.highlights.map((highlight) => (
+                    <li key={highlight} className="text-gray-400">
+                      <span className="text-gray-600">{highlight}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+            <div className="mt-10">
+              <h2 className="text-sm font-medium text-gray-900">Details</h2>
+
+              <div className="mt-4 space-y-6">
+                <p className="text-sm text-gray-600">{product.details}</p>
+              </div>
+            </div>
+            <button
+                type="submit"
+                className="mt-10 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:outline-hidden"
+              >
+                Add to bag
+            </button>
           </div>
         </div>
       </div>
-    </MainLayout>
+    </div>
   )
 }
