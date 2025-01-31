@@ -2,6 +2,7 @@ import { useState, useEffect } from "react"
 import { Link } from "react-router"
 import { productAPI } from "@/services/api"
 import { Product } from "@/types/product"
+import { formatPrice } from "@/utils/format"
 
 export default function Home() {
 
@@ -46,7 +47,7 @@ export default function Home() {
                   className="w-full h-48 object-contain mb-4"
                 />
                 <h2 className="text-xl font-semibold truncate">{product.title}</h2>
-                <p className="text-gray-600">${product.price}</p>
+                <p className="text-gray-600">{formatPrice(product.price)}</p>
                 <div className="flex items-center mt-2 text-sm text-gray-500">
                   <span>Rating: {product.rating.rate}/5</span>
                   <span className="mx-2">•</span>
