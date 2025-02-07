@@ -3,8 +3,16 @@ import { Link } from "react-router"
 import { productAPI } from "@/services/api"
 import { Product } from "@/types/product"
 import { formatPrice } from "@/utils/format"
+import { useCounterStore } from "@/stores/counterStore"
+import { useCartStore } from "@/stores/cartStore"
 
 export default function Home() {
+
+  // ดึง state  ที่เราต้องการใช้งานจาก useCartStore
+  const addToCart = useCartStore((state) => state.addItem)
+
+  // ดึง state และ function ที่เราต้องการใช้งานจาก useCounterStore
+  const { count, increment, decrement } = useCounterStore()
 
   // สร้าง state สำหรับเก็บข้อมูล products
   const [products, setProducts] = useState<Product[]>([])
@@ -39,10 +47,21 @@ export default function Home() {
   return (
       <div className="bg-white">
         <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
+          
+          <div className="flex flex-col items-center justify-between my-4">
+            <button 
+              onClick={increment}
+              className="bg-blue-400 text-white px-4 py-2 rounded cursor-pointer hover:bg-amber-500">+ Increment</button>
+            <h2 className="text-2xl my-4">Counter: { count }</h2>
+            <button 
+              onClick={decrement}
+              className="bg-blue-400 text-white px-4 py-2 rounded cursor-pointer hover:bg-amber-500">- Decrement</button>
+          </div>
+
           <h2 className="text-2xl font-bold tracking-tight text-gray-900">Ours Products</h2>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {products.map((product) => (
+            {products.map((product: any) => (
               <div key={product.id} className="p-6 bg-white rounded-lg shadow-md">
                 <img
                   alt={product.title}
@@ -63,9 +82,11 @@ export default function Home() {
                   <Link to={`/products/${product.id}`} className="mt-4 bg-blue-500 text-sm font-semibold text-white py-3 px-4 rounded-lg">
                     View Details
                   </Link>
-                  <Link to="/addToCart" className="mt-4 bg-green-500 text-sm font-semibold text-white py-3 px-4 rounded-lg">
+                  <button 
+                    onClick={() => addToCart(product)}
+                    className="mt-4 bg-green-500 text-sm font-semibold text-white py-3 px-4 rounded-lg">
                     Add to Cart
-                  </Link>
+                  </button>
                 </div>
               </div>
             ))}

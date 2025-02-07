@@ -1,6 +1,8 @@
 import { Link } from 'react-router'
 import { Disclosure, DisclosureButton, DisclosurePanel, Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react'
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/solid'
+import { useCounterStore } from "@/stores/counterStore"
+import { useCartStore } from "@/stores/cartStore"
 
 const navigation = [
   { name: 'Home', href: '/', current: false },
@@ -13,6 +15,13 @@ function classNames(...classes: any) {
 }
 
 export default function Navbar() {
+
+  const cartItems = useCartStore(state => state.items)
+  const cartItemCount = cartItems.reduce((sum, item) => sum + item.quantity, 0);
+
+  // ดึง state  ที่เราต้องการใช้งานจาก useCounterStore
+  const { count } = useCounterStore()
+
   return (
     <Disclosure as="nav" className="bg-gray-900">
       <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
@@ -49,6 +58,12 @@ export default function Navbar() {
                     {item.name}
                   </Link>
                 ))}
+                
+                {/* แสดงจำนวน count จาก useCounterStore */}
+                <h2 className='text-white mt-2'>
+                  count : { count }
+                </h2>
+
               </div>
             </div>
           </div>
@@ -56,7 +71,7 @@ export default function Navbar() {
             
             <Link to='/cart' className="text-gray-400 hover:text-white relative mx-4">
               Cart
-              <span className="absolute -top-2 -right-2 bg-red-600 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">10</span>
+              <span className="absolute -top-2 -right-2 bg-red-600 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">{ cartItemCount }</span>
             </Link>
 
             <button
