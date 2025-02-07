@@ -68,6 +68,10 @@ export default function Navbar() {
             </div>
           </div>
           <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
+
+            <Link to='/login' className='text-white bg-blue-500 rounded px-4 py-2 hover:text-white relative mx-4 hover:bg-blue-600'>
+                Login
+            </Link>
             
             <Link to='/cart' className="text-gray-400 hover:text-white relative mx-4">
               Cart

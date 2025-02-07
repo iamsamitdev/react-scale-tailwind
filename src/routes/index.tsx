@@ -2,8 +2,11 @@ import MainLayout from "@/layouts/MainLayout"
 import About from "@/pages/About"
 import Cart from "@/pages/Cart"
 import Contact from "@/pages/Contact"
+import Forgotpassword from "@/pages/Forgotpassword"
 import Home from "@/pages/Home"
+import Login from "@/pages/Login"
 import ProductDetail from "@/pages/ProductDetail"
+import Register from "@/pages/Register"
 import { createBrowserRouter, RouterProvider } from "react-router"
 
 const router = createBrowserRouter([
@@ -32,6 +35,18 @@ const router = createBrowserRouter([
                 element: <Cart />
             }
         ]
+    },
+    {
+        path: "/login",
+        element: <Login />
+    },
+    {
+        path: "/register",
+        element: <Register />
+    },
+    {
+        path: "/forgotpassword",
+        element: <Forgotpassword />
     }
 ])
 
