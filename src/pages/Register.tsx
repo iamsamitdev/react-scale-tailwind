@@ -1,12 +1,63 @@
 import { Container } from "@/components/front/Container"
 import { SectionTitle } from "@/components/front/SectionTitle"
 import { useEffect } from "react"
-import { Link } from "react-router"
+import { Link, useNavigate } from "react-router"
+import { useForm , SubmitHandler } from "react-hook-form"
+import { authRegister } from "@/services/apiAuthUser"
+import { RegisterData } from "@/types/user"
+import Swal from 'sweetalert2'
 
 export default function Register() {
+
+  const navigate = useNavigate()
+
   useEffect(() => {
     document.title = "Register | WindReact"
   }, [])
+
+  // Create useForm hook
+  const { register, handleSubmit, watch, formState: { errors } } = useForm<RegisterData>()
+
+  const onSubmit: SubmitHandler<RegisterData> = (data) => {
+    // console.log(data)
+
+    // ข้อมูลที่จะส่งไปยัง API
+    const userData = {
+      "username": data.username,
+      "password": data.password,
+      "fullname": data.fullname,
+      "email": data.email,
+      "tel": data.tel
+    }
+
+    // ส่งข้อมูลไปยัง API
+    authRegister(userData).then((response) => {
+      console.log(response)
+
+      // แสดงข้อความแจ้งเตือนว่า Register สำเร็จ
+      Swal.fire({
+        title: "Register สำเร็จ",
+        icon: "success",
+        draggable: true,
+        timer: 2000,
+      });
+
+      // หน่วงเวลา 2 วินาที แล้ว redirect ไปหน้า Dashboard
+      setTimeout(() => {
+        navigate('/login')
+      }, 2000)
+
+    }).catch((error) => {
+      Swal.fire({
+        icon: "error",
+        title: "มีข้อผิดพลาด",
+        text: "กรุณาตรวจสอบข้อมูลให้ถูกต้อง",
+        timer: 2000,
+      });
+      console.error(error)
+    })
+
+  }
 
   return (
     <div className="min-h-screen bg-gray-50 ">
@@ -35,35 +86,39 @@ export default function Register() {
               </SectionTitle>
             </div>
 
-            <form className="space-y-6">
+            <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
               <div className="space-y-4 rounded-md">
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <label htmlFor="firstName" className="block text-sm font-medium text-gray-700 mb-2">
-                      First Name
+                <div>
+                    <label htmlFor="username" className="block text-sm font-medium text-gray-700 mb-2">
+                      Username
                     </label>
                     <input
-                      id="firstName"
-                      name="firstName"
+                      {...register("username", {
+                        required: true
+                      }
+                      )}
+                      id="username"
+                      name="username"
                       type="text"
-                      required
                       className="mt-1 block w-full rounded-lg border border-gray-300 px-3 py-2 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500"
-                      placeholder="John"
                     />
-                  </div>
-                  <div>
-                    <label htmlFor="lastName" className="block text-sm font-medium text-gray-700 mb-2">
-                      Last Name
+                    {errors.username && <span className="text-red-500">This field is required</span>}
+                </div>
+                <div>
+                    <label htmlFor="fullname" className="block text-sm font-medium text-gray-700 mb-2">
+                      Fullname
                     </label>
                     <input
-                      id="lastName"
-                      name="lastName"
+                      {...register("fullname", {
+                        required: true
+                      }
+                      )}
+                      id="fullname"
+                      name="fullname"
                       type="text"
-                      required
                       className="mt-1 block w-full rounded-lg border border-gray-300 px-3 py-2 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500"
-                      placeholder="Doe"
                     />
-                  </div>
+                    {errors.fullname && <span className="text-red-500">This field is required</span>}
                 </div>
                 
                 <div>
@@ -71,14 +126,34 @@ export default function Register() {
                     Email address
                   </label>
                   <input
+                    {...register("email", {
+                      required: true
+                    }
+                    )}
                     id="email"
                     name="email"
                     type="email"
                     autoComplete="email"
-                    required
                     className="mt-1 block w-full rounded-lg border border-gray-300 px-3 py-2 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500"
-                    placeholder="john@example.com"
                   />
+                  {errors.email && <span className="text-red-500">This field is required</span>}
+                </div>
+
+                <div>
+                    <label htmlFor="tel" className="block text-sm font-medium text-gray-700 mb-2">
+                      Tel
+                    </label>
+                    <input
+                      {...register("tel", {
+                        required: true
+                      }
+                      )}
+                      id="tel"
+                      name="tel"
+                      type="text"
+                      className="mt-1 block w-full rounded-lg border border-gray-300 px-3 py-2 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500"
+                    />
+                    {errors.tel && <span className="text-red-500">This field is required</span>}
                 </div>
 
                 <div>
@@ -86,27 +161,36 @@ export default function Register() {
                     Password
                   </label>
                   <input
+                    {...register("password", {
+                      required: true
+                    }
+                    )}
                     id="password"
                     name="password"
                     type="password"
-                    required
                     className="mt-1 block w-full rounded-lg border border-gray-300 px-3 py-2 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500"
-                    placeholder="••••••••"
                   />
+                  {errors.password && <span className="text-red-500">This field is required</span>}
                 </div>
 
                 <div>
-                  <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700 mb-2">
+                  <label htmlFor="confirm_password" className="block text-sm font-medium text-gray-700 mb-2">
                     Confirm Password
                   </label>
                   <input
-                    id="confirmPassword"
-                    name="confirmPassword"
+                    {...register("confirm_password", {
+                      required: true,
+                      // validate password match
+                      validate: value => value === watch('password') || "The passwords do not match"
+                    }
+                    )}
+                    id="confirm_password"
+                    name="confirm_password"
                     type="password"
-                    required
                     className="mt-1 block w-full rounded-lg border border-gray-300 px-3 py-2 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500"
-                    placeholder="••••••••"
                   />
+                  {(errors.confirm_password && errors.confirm_password?.type !== "validate") && <span className="text-red-500">This field is required</span>}
+                  {errors.confirm_password?.type === "validate" && <span className="text-red-500">{errors.confirm_password.message}</span>}
                 </div>
               </div>
 
@@ -115,7 +199,6 @@ export default function Register() {
                   id="terms"
                   name="terms"
                   type="checkbox"
-                  required
                   className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
                 />
                 <label htmlFor="terms" className="ml-2 block text-sm text-gray-700">

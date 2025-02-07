@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router"
 import { useForm , SubmitHandler } from "react-hook-form"
 import { authLogin } from "@/services/apiAuthUser"
 import { LoginData } from "@/types/user"
+import Swal from 'sweetalert2'
 
 export default function Login() {
 
@@ -19,6 +20,36 @@ export default function Login() {
 
   const onSubmit: SubmitHandler<LoginData> = (data) => {
     console.log(data)
+    // ส่งข้อมูล username และ password ไปยัง API
+    authLogin(data).then((response) => {
+      console.log(response)
+
+      // แสดงข้อความแจ้งเตือนว่า Login สำเร็จ
+      Swal.fire({
+        title: "เข้าสู่ระบบสำเร็จ",
+        icon: "success",
+        draggable: true,
+        timer: 2000,
+      });
+
+      // ถ้าสำเร็จเก็บ token และ user ไว้ใน localStorage
+      localStorage.setItem('access_token', response.data.accessToken)
+      localStorage.setItem('user', JSON.stringify(response.data.user))
+
+      // หน่วงเวลา 2 วินาที แล้ว redirect ไปหน้า Dashboard
+      setTimeout(() => {
+        navigate('/dashboard')
+      }, 2000)
+
+    }).catch((error) => {
+      Swal.fire({
+        icon: "error",
+        title: "มีข้อผิดพลาด",
+        text: "กรุณาตรวจสอบข้อมูลให้ถูกต้อง",
+        timer: 2000,
+      });
+      console.error(error)
+    })
   }
 
   return (

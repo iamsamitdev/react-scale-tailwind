@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-import { UserResponse, LoginData } from '@/types/user'
+import { UserResponse, LoginData, RegisterData } from '@/types/user'
 
 import { API_LOCAL_CONFIG } from '@/constants/config'
 
@@ -19,4 +19,14 @@ const authLogin = (data: LoginData) => {
     })
 }
 
-export { authLogin }
+// สร้างฟังก์ชัน register ที่รับข้อมูล username, password, fullname, email และ tel และส่งไปยัง API
+const authRegister = (data: RegisterData) => {
+    return api.post<UserResponse>('/users/register', data , {
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': "application/json",
+        },
+    })
+}
+
+export { authLogin , authRegister }
