@@ -1,7 +1,7 @@
 import { Container } from "@/components/front/Container"
 import { SectionTitle } from "@/components/front/SectionTitle"
 import { useEffect } from "react"
-import { Link, useNavigate } from "react-router"
+import { Link } from "react-router"
 import { useForm , SubmitHandler } from "react-hook-form"
 import { authLogin } from "@/services/apiAuthUser"
 import { LoginData } from "@/types/user"
@@ -9,7 +9,7 @@ import Swal from 'sweetalert2'
 
 export default function Login() {
 
-  const navigate = useNavigate()
+  // const navigate = useNavigate()
 
   useEffect(() => {
     document.title = "Login | React Tailwind Admin"
@@ -38,7 +38,8 @@ export default function Login() {
 
       // หน่วงเวลา 2 วินาที แล้ว redirect ไปหน้า Dashboard
       setTimeout(() => {
-        navigate('/dashboard')
+        // navigate('/dashboard')
+        window.location.href = '/dashboard' // redirect ไปหน้า Dashboard โดยการ refresh หน้าเว็บ
       }, 2000)
 
     }).catch((error) => {

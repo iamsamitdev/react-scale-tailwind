@@ -1,4 +1,3 @@
-import { Link } from 'react-router'
 import { useCartStore } from "@/stores/cartStore"
 
 export default function Cart() {
