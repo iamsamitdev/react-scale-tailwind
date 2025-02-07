@@ -2,6 +2,9 @@ import { Container } from "@/components/front/Container"
 import { SectionTitle } from "@/components/front/SectionTitle"
 import { useEffect } from "react"
 import { Link, useNavigate } from "react-router"
+import { useForm , SubmitHandler } from "react-hook-form"
+import { authLogin } from "@/services/apiAuthUser"
+import { LoginData } from "@/types/user"
 
 export default function Login() {
 
@@ -11,11 +14,11 @@ export default function Login() {
     document.title = "Login | React Tailwind Admin"
   }, [])
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    console.log("Form submitted")
-    // to login
-    navigate("/dashboard")
+  // Create useForm hook
+  const { register, handleSubmit, formState: { errors } } = useForm<LoginData>()
+
+  const onSubmit: SubmitHandler<LoginData> = (data) => {
+    console.log(data)
   }
 
   return (
@@ -45,35 +48,47 @@ export default function Login() {
               </SectionTitle>
             </div>
 
-            <form className="space-y-6" onSubmit={handleSubmit}>
+            <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
               <div className="space-y-4 rounded-md">
                 <div>
-                  <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
-                    Email address
+                  <label htmlFor="text" className="block text-sm font-medium text-gray-700 mb-2">
+                    Username
                   </label>
                   <input
-                    id="email"
-                    name="email"
-                    type="email"
-                    autoComplete="email"
-                    required
+                    {...register("username", {
+                      required: true,
+                      minLength: 3,
+                      maxLength: 20,
+                    })}
+                    id="username"
+                    name="username"
+                    type="text"
                     className="mt-1 block w-full rounded-lg border border-gray-300 px-3 py-2 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500"
-                    placeholder="Enter your email"
+                    placeholder="Enter your username"
                   />
+                  {errors.username && <p className="text-red-500 text-xs mt-1">Username is required</p>}
+                  {errors.username?.type === "minLength" && <p className="text-red-500 text-xs mt-1">Username must be at least 3 characters</p>}
+                  {errors.username?.type === "maxLength" && <p className="text-red-500 text-xs mt-1">Username must be at most 20 characters</p>}
                 </div>
                 <div>
                   <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-2">
                     Password
                   </label>
                   <input
+                    {...register("password", {
+                      required: true,
+                      minLength: 6,
+                      maxLength: 20,
+                    })}
                     id="password"
                     name="password"
                     type="password"
-                    autoComplete="current-password"
-                    required
                     className="mt-1 block w-full rounded-lg border border-gray-300 px-3 py-2 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500"
                     placeholder="Enter your password"
                   />
+                  {errors.password && <p className="text-red-500 text-xs mt-1">Password is required</p>}
+                  {errors.password?.type === "minLength" && <p className="text-red-500 text-xs mt-1">Password must be at least 6 characters</p>}
+                  {errors.password?.type === "maxLength" && <p className="text-red-500 text-xs mt-1">Password must be at most 20 characters</p>}
                 </div>
               </div>
 

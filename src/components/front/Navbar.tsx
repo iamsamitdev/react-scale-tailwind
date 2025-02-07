@@ -37,11 +37,13 @@ export default function Navbar() {
           </div>
           <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
             <div className="flex shrink-0 items-center">
+              <Link to="/" className="flex items-center cursor-pointer">
               <img
                 alt="Your Company"
                 src="/images/logo.png"
                 className="h-8 w-auto"
               />
+              </Link>
             </div>
             <div className="hidden sm:ml-6 sm:block">
               <div className="flex space-x-4">
@@ -69,7 +71,7 @@ export default function Navbar() {
           </div>
           <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
 
-            <Link to='/login' className='text-white bg-blue-500 rounded px-4 py-2 hover:text-white relative mx-4 hover:bg-blue-600'>
+            <Link to='/login' className='text-white bg-blue-500 rounded px-4 py-1 hover:text-white relative mx-4 hover:bg-blue-600'>
                 Login
             </Link>
             
